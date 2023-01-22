@@ -15,7 +15,8 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  let data = {data: "Hello World!"}
+  res.json(data)
 })
 
 app.listen(port, () => {
