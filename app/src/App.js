@@ -1,43 +1,18 @@
-import React ,{Component} from "react";
-import logo from './logo.svg';
-import './App.css';
+import {Route, Routes} from 'react-router-dom';
+import HomePage from "./HomePage";
+import LoginPage from "./LoginPage";
+import RegisterPage from "./RegisterPage";
 
 
-class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            myVariable: ""
-        };
-    }
+function App() {
+    return (
+            <Routes>
+                <Route exact path="/" element={<HomePage/>} ></Route>
+                <Route exact path="/login" element={<LoginPage/>} ></Route>
+                <Route exact path="/register" element={<RegisterPage/>} ></Route>
+            </Routes>
 
-    componentDidMount() {
-        fetch(`http://localhost:3000`)
-            .then(res => res.json())
-            .then(data => this.setState({myVariable: data.data}))
-            .catch(error => console.error(error));
-    }
-
-
-    render() {
-        return (
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
-                    <p>
-                        {this.state.myVariable}
-                    </p>
-                    <a
-                        className="App-link"
-                        href="https://reactjs.org"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Learn React
-                    </a>
-                </header>
-            </div>)
-    }
+    );
 }
 
 export default App;
