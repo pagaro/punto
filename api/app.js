@@ -3,7 +3,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const bcrypt = require("bcrypt");
-
+const jwt = require('jsonwebtoken');
+require("dotenv").config();
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
@@ -13,7 +14,7 @@ app.use((req, res, next) => {
     next();
 });
 
-mongoose.connect("mongodb://punto-user:punto@punto-db:27017/punto");
+mongoose.connect("mongodb://punto-user:punto@db:27017/punto");
 
 const User = mongoose.model('User', {
     email: String,
@@ -22,7 +23,7 @@ const User = mongoose.model('User', {
 
 app.post('/login', (req, res) => {
     const {email, password} = req.body;
-    console.log(res)
+    console.log(process.env.JWT_KEY)
 
     User.findOne({email}, (err, user) => {
         if (err) {
@@ -30,7 +31,7 @@ app.post('/login', (req, res) => {
         }
 
         if (!user) {
-            return res.status(404).send({message: 'Utilisateur non trouvé'});
+            return res.status(400).send({message: 'Utilisateur non trouvé'});
         }
 
         bcrypt.compare(password, user.password, (err, match) => {
@@ -42,7 +43,12 @@ app.post('/login', (req, res) => {
                 return res.status(401).send({message: 'Mot de passe incorrect'});
             }
 
-            res.send({message: 'Connexion réussie'});
+            const token = jwt.sign({ id: user._id, email:user.email }, process.env.JWT_KEY,{
+                expiresIn: '1h'
+            });
+            const message = 'Connexion réussie';
+
+            res.send({message: message, token: token});
         });
     });
 });
@@ -75,6 +81,51 @@ app.post('/register', (req, res) => {
             });
         });
     });
+});
+
+app.get('/check-token', (req, res) => {
+    // Récupération du token depuis l'en-tête d'autorisation
+    const token = req.headers.authorization.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({ error: 'No token provided' });
+    }
+
+    try {
+        // Vérification de la validité du token
+        const decoded = jwt.verify(token, process.env.JWT_KEY);
+
+        return res.status(200).json({ message: 'Token is valid' });
+    } catch (err) {
+        console.log(err)
+        return res.status(401).json({ error: 'Invalid token' });
+    }
+});
+
+
+function validateToken(req, res, next) {
+    // Récupération du token depuis l'en-tête d'autorisation
+    const token = req.headers.authorization;
+
+    if (!token) {
+        return res.status(401).json({ error: 'No token provided' });
+    }
+
+    try {
+        // Vérification de la validité du token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.userId = decoded.id;
+        next();
+    } catch (err) {
+        return res.status(401).json({ error: 'Invalid token' });
+    }
+}
+
+app.use('/protected', validateToken, (req, res, next) => {
+    const message = 'Connexion réussie';
+
+    console.log(message);
+    res.send({message: message});
 });
 
 

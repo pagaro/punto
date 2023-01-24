@@ -1,47 +1,50 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
+import userLoginStatus from "./userLoginStatus";
 
-class LoginPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: '',
-            password: '',
-        };
-    }
+function LoginPage() {
+    const [fields, setFields] = useState({email:'',password:'',error: null})
+    const navigate = useNavigate();
 
-    handleChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value });
-    }
-
-    handleSubmit = async (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const data = { email: this.state.email, password: this.state.password };
-            const response = await axios.post("http://localhost:3000/login", data);
-            console.log(response.data);
+            const response = await axios.post("http://localhost:3000/login", fields);
+            localStorage.setItem('token', response.data.token)
+            navigate('/game');
         } catch (error) {
             console.error(error);
+            setFields({...fields , error: error.response.data.message})
         }
     }
 
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
+    useEffect(()=> {
+        userLoginStatus().then((result)=> {
+            if (result.isLoggedIng){
+                navigate("/game");
+            }
+        })
+    },[])
+
+    return (
+        <div>
+            <form onSubmit={handleSubmit}>
                 <label>
                     Email:
-                    <input type="email" name="email" value={this.state.email} onChange={this.handleChange} />
+                    <input type="email" value={fields.email} onChange={e => setFields({...fields , email: e.target.value})}/>
                 </label>
-                <br />
+                <br/>
                 <label>
                     Password:
-                    <input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
+                    <input type="password" value={fields.password} onChange={e => setFields({...fields , password: e.target.value})}/>
                 </label>
-                <br />
+                <br/>
                 <button type="submit">Login</button>
             </form>
-        );
-    }
+            {fields.error && <p>{fields.error}</p>}
+        </div>
+    );
 }
 
 export default LoginPage;
