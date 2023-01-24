@@ -9,8 +9,8 @@ class HomePage extends Component {
                 <Link to="/login">
                     <button>Login</button>
                 </Link>
-                <Link to="/register">
-                    <button>Register</button>
+                <Link to="/signup">
+                    <button>Signup</button>
                 </Link>
             </div>
         );

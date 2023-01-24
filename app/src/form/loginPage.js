@@ -2,9 +2,11 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import userLoginStatus from "./userLoginStatus";
+import './form.css';
+import {toast, ToastContainer} from "react-toastify";
 
 function LoginPage() {
-    const [fields, setFields] = useState({email:'',password:'',error: null})
+    const [fields, setFields] = useState({email:'',password:''})
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
@@ -14,8 +16,8 @@ function LoginPage() {
             localStorage.setItem('token', response.data.token)
             navigate('/game');
         } catch (error) {
-            console.error(error);
-            setFields({...fields , error: error.response.data.message})
+            console.log(error)
+            toast(error.response.data)
         }
     }
 
@@ -28,8 +30,8 @@ function LoginPage() {
     },[])
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div className="form-page">
+            <form onSubmit={handleSubmit} className="form">
                 <label>
                     Email:
                     <input type="email" value={fields.email} onChange={e => setFields({...fields , email: e.target.value})}/>
@@ -42,7 +44,7 @@ function LoginPage() {
                 <br/>
                 <button type="submit">Login</button>
             </form>
-            {fields.error && <p>{fields.error}</p>}
+            <ToastContainer/>
         </div>
     );
 }

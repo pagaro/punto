@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
+const User = require("./User");
 require("dotenv").config();
 app.use(bodyParser.json());
 
@@ -16,41 +17,86 @@ app.use((req, res, next) => {
 
 mongoose.connect("mongodb://punto-user:punto@db:27017/punto");
 
-const User = mongoose.model('User', {
-    email: String,
-    password: String
-});
-
-app.post('/login', (req, res) => {
-    const {email, password} = req.body;
-    console.log(process.env.JWT_KEY)
-
-    User.findOne({email}, (err, user) => {
-        if (err) {
-            return res.status(500).send(err);
-        }
+app.post('/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(400).send({message: 'Utilisateur non trouvé'});
+            throw new Error('Utilisateur non trouvé');
         }
 
-        bcrypt.compare(password, user.password, (err, match) => {
-            if (err) {
-                return res.status(500).send(err);
-            }
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            throw new Error('Mot de passe incorrect');
+        }
 
-            if (!match) {
-                return res.status(401).send({message: 'Mot de passe incorrect'});
-            }
-
-            const token = jwt.sign({ id: user._id, email:user.email }, process.env.JWT_KEY,{
-                expiresIn: '1h'
-            });
-            const message = 'Connexion réussie';
-
-            res.send({message: message, token: token});
+        const token = jwt.sign({ userId: user._id },process.env.JWT_KEY,{
+            expiresIn: '1d'
         });
-    });
+
+        res.send({ token });
+
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+});
+
+// app.post('/login', (req, res) => {
+//     const {email, password} = req.body;
+//     console.log(process.env.JWT_KEY)
+//
+//     User.findOne({email}, (err, user) => {
+//         if (err) {
+//             return res.status(500).send(err);
+//         }
+//
+//         if (!user) {
+//             return res.status(400).send({message: 'Utilisateur non trouvé'});
+//         }
+//
+//         bcrypt.compare(password, user.password, (err, match) => {
+//             if (err) {
+//                 return res.status(500).send(err);
+//             }
+//
+//             if (!match) {
+//                 return res.status(401).send({message: 'Mot de passe incorrect'});
+//             }
+//
+//             const token = jwt.sign({ id: user._id, email:user.email }, process.env.JWT_KEY,{
+//                 expiresIn: '1h'
+//             });
+//             const message = 'Connexion réussie';
+//
+//             res.send({message: message, token: token});
+//         });
+//     });
+// });
+
+app.post('/signup', async (req, res) => {
+    try {
+        const { email, dob, password } = req.body;
+        const user = await User.findOne({ email });
+
+        if (user) {
+            throw new Error('Adresse email déjà utilisée');
+        }
+        // User.findOne({email}, (err, existingUser) => {
+        //     if (existingUser) {
+        //         throw new Error('Adresse email déjà utilisée');
+        //         // return res.status(400).send({message: 'Adresse email déjà utilisée'});
+        //     }
+        // });
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const usr = new User({ email, dob, password: hashedPassword });
+        await usr.save();
+        res.status(201).send();
+    } catch (error) {
+        console.log(error);
+        res.status(400).send(error.message);
+    }
 });
 
 app.post('/register', (req, res) => {
