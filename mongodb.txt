@@ -1,0 +1,13 @@
+use punto
+
+db.createUser(
+  {
+    user: "punto-user",
+    pwd: "punto",
+    roles: [{ role: "readWrite", db: "punto" }]
+  }
+);
+
+db.createCollection("users")
+db.users.createIndex( { "email": 1 }, { unique: true } )
+db.users.createIndex( { "password": 1 } )

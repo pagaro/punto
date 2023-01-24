@@ -1,0 +1,49 @@
+name: punto
+version: '3'
+services:
+  db:
+    container_name: db
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - db_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+
+  db-express:
+    container_name: db-express
+    image: mongo-express
+    depends_on:
+      - db
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+      ME_CONFIG_MONGODB_SERVER: db
+      ME_CONFIG_MONGODB_HOSTNAME: db
+
+  api:
+    container_name: api
+    build: ./api
+    ports:
+      - "3000:3000"
+    links:
+      - db
+    depends_on:
+      - db
+
+  app:
+    container_name: app
+    build: ./app
+    ports:
+      - "80:80"
+    links:
+      - db
+    depends_on:
+      - api
+
+volumes:
+  db_data:
