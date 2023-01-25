@@ -9,7 +9,8 @@ const GameSchema = new mongoose.Schema({
     id_users: {
         type: [Schema.Types.ObjectId],
         required: true,
-        validate: [arrayLimitUsers(), '{PATH} exceeds the limit of 4']
+        maxItems: 4,
+        minItems: 1,
     },
     status: {
         type: String,
@@ -19,16 +20,12 @@ const GameSchema = new mongoose.Schema({
     id_handles: {
         type: [Schema.Types.ObjectId],
         default: undefined,
-        validate: [arrayLimitHandles(), '{PATH} exceeds the limit of 5']
+        maxItems: 5,
+        minItems: 0,
     },
 });
 
-function arrayLimitUsers(val) {
-    return val.length <= 4;
-}
-function arrayLimitHandles(val) {
-    return val.length <= 5;
-}
+
 
 const Game = mongoose.model('Game', GameSchema);
 

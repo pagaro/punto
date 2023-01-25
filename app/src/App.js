@@ -2,8 +2,9 @@ import React from "react";
 import {Navigate, Outlet, Route, Routes} from 'react-router-dom';
 import HomePage from "./HomePage";
 import LoginPage from "./form/loginPage";
-import GamePage from "./game/GamePage";
+import LobbyPage from "./game/lobbyPage";
 import SignupPage from "./form/signupPage";
+import GamePage from "./game/gamePage";
 
 const PrivateRoute = () => {
     const token = localStorage.getItem('token');
@@ -17,8 +18,9 @@ function App() {
             <Route exact path="/login" element={<LoginPage/>}/>
             <Route exact path="/signup" element={<SignupPage/>}/>
             <Route exact path='/game' element={<PrivateRoute/>}>
-                <Route exact path='/game' element={<GamePage/>}/>
+                <Route exact path='/game' element={<LobbyPage/>}/>
             </Route>
+            <Route path="/game/:id" element={<GamePage/>}></Route>
         </Routes>
 
     );

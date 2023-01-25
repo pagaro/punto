@@ -27,7 +27,7 @@ function LoginPage() {
                 navigate("/game");
             }
         })
-    },[])
+    },[navigate])
 
     return (
         <div className="form-page">

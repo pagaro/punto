@@ -13,9 +13,7 @@ const userLoginStatus = async () =>{
             }
         }).then(response => {
                 if (response.status === 200) {
-                    console.log("toto" + response.status)
                     isLoggedIng = true;
-                    console.log(isLoggedIng)
                 }
             }
         ).catch(error => {
@@ -23,7 +21,6 @@ const userLoginStatus = async () =>{
             isLoggedIng = false;
         });
     }
-    console.log(isLoggedIng)
     return {isLoggedIng, errormsg};
 }
 

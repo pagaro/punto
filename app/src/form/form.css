@@ -21,9 +21,7 @@
     color: #666;
 }
 
-.form input[type="email"],
-.form input[type="password"],
-.form input[type="date"] {
+.form input{
     width: 94%;
     padding: 12px;
     border-radius: 4px;
@@ -31,7 +29,6 @@
     margin-bottom: 5px;
     margin-top: 5px;
     font-size: 14px;
-    /*text-align: left;*/
 }
 
 .form button {

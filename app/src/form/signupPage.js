@@ -21,7 +21,7 @@ function SignupPage() {
         const passwordStrength = zxcvbn(fields.password);
 
         if (passwordStrength.score < 3) {
-            toast("Mot de passe faible")
+            toast("Mot de passe faible , pas bloquant")
             //todo
             // return;
         }
