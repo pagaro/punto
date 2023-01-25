@@ -7,7 +7,7 @@ const userLoginStatus = async () =>{
     const token = localStorage.getItem('token');
 
     if (token) {
-        await axios.get('http://localhost:3000/check-token', {
+        await axios.get('http://localhost:3000/checktoken', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
