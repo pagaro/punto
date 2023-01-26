@@ -12,6 +12,7 @@ const signupRoutes = require('./route/signup');
 const checktokenRoutes = require('./route/checktoken');
 const creategameRoutes = require('./game/createGame');
 const statusgameRoutes = require('./game/statusGame');
+const startgameRoutes = require('./game/startGame');
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -25,6 +26,7 @@ app.use('/signup', signupRoutes);
 app.use('/checktoken', checktokenRoutes);
 app.use('/creategame', creategameRoutes);
 app.use('/statusgame', statusgameRoutes);
+app.use('/startgame', startgameRoutes);
 
 app.listen(3000, () => {
     console.log('Serveur démarré sur le port 3000');

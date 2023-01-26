@@ -2,18 +2,21 @@ const {validateToken} = require("../validateToken");
 const express = require('express');
 const Game = require("../schema/Game");
 const router = express.Router();
-
 router.post('/', validateToken, async (req, res) => {
-    const name = req.body.name
-    const id = req.id;
+    const id_game = req.body.id
+    console.log(id_game)
     try {
-        if (!name) {
-            throw new Error('Nom de la partie vide');
+        const game = await Game.findOne({_id: id_game });
+
+        if (!game) {
+            throw new Error('Game non trouvé');
         }
 
-        const game = new Game({id_users: [id],name:name});
+
+        game.status = 'RUNNING';
         await game.save();
-        return res.status(200).json({id: game._id});
+
+        return res.status(200).json(game);
     } catch (error) {
         console.log(error);
         res.status(400).send(error.message);

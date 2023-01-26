@@ -7,7 +7,6 @@ function GamePage() {
     const token = localStorage.getItem('token');
     const navigate = useNavigate();
     const { id } = useParams()
-    console.log(id)
 
     useEffect( () => {
         axios.post("http://localhost:3000/statusgame", {id: id}, {
@@ -23,6 +22,7 @@ function GamePage() {
         })
 
     }, [])
+
 
     return (
         <div>
