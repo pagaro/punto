@@ -21,7 +21,7 @@ function SignupPage() {
         const passwordStrength = zxcvbn(fields.password);
 
         if (passwordStrength.score < 3) {
-            toast("Mot de passe faible , pas bloquant")
+            toast("Mot de passe faible , pas encore bloquant")
             //todo
             // return;
         }
@@ -38,7 +38,7 @@ function SignupPage() {
     useEffect(()=> {
         userLoginStatus().then((result)=> {
             if (result.isLoggedIng){
-                navigate("/game");
+                navigate("/");
             }
         })
     },[])

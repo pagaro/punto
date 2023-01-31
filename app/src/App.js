@@ -1,8 +1,8 @@
 import React from "react";
 import {Navigate, Outlet, Route, Routes} from 'react-router-dom';
-import HomePage from "./HomePage";
+import HomePage from "./homePage";
 import LoginPage from "./form/loginPage";
-import CreatePage from "./form/createPage";
+import CreatePage from "./game/createPage";
 import SignupPage from "./form/signupPage";
 import LobbyPage from "./game/lobbyPage";
 

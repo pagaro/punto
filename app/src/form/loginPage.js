@@ -14,7 +14,7 @@ function LoginPage() {
         try {
             const response = await axios.post("http://localhost:3000/login", fields);
             localStorage.setItem('token', response.data.token)
-            navigate('/game');
+            navigate('/');
         } catch (error) {
             console.log(error)
             toast(error.response.data)
@@ -24,7 +24,7 @@ function LoginPage() {
     useEffect(()=> {
         userLoginStatus().then((result)=> {
             if (result.isLoggedIng){
-                navigate("/game");
+                navigate("/");
             }
         })
     },[navigate])

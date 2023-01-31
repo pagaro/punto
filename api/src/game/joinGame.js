@@ -1,9 +1,11 @@
 const {validateToken} = require("../validateToken");
 const express = require('express');
 const Game = require("../schema/Game");
+const User = require("../schema/User");
 const router = express.Router();
 router.post('/', validateToken, async (req, res) => {
     const id_game = req.body.id
+    const id = req.id;
     try {
         const game = await Game.findOne({_id: id_game });
 
@@ -11,10 +13,20 @@ router.post('/', validateToken, async (req, res) => {
             throw new Error('Game non trouvé');
         }
 
+        if (game.id_users.includes(id)) {
+            throw new Error('User deja dedans trouvé');
+        }
 
-        game.status = 'RUNNING';
-        await game.save();
+        const user = await User.findById(id);
 
+        if (!user) {
+            throw new Error('User non trouvé');
+        }
+
+        game.id_users.push(id);
+        game.save();
+
+        req.app.io.emit('useradded', user);
         return res.status(200).json(game);
     } catch (error) {
         console.log(error);
@@ -22,4 +34,4 @@ router.post('/', validateToken, async (req, res) => {
     }
 });
 
-module.exports = router;
+module.exports= router;

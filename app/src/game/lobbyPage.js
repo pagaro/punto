@@ -2,11 +2,17 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
 import GamePage from "./gamePage";
-import './game.css';
 import {toast, ToastContainer} from "react-toastify";
+import ListUsers from "../component/list/listUsers";
+import JoinButton from "../component/button/joinButton";
+import StartButton from "../component/button/startButton";
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:3000', {transports: ['websocket']});
 
 function LobbyPage() {
-    const [fields, setFields] = useState({name: '', status: '', users: []});
+    const [fields, setFields] = useState({name: '', status: '', users: [], is_in: false,isConnected: socket.connected });
+    const [newUser, setNewUser] = useState(undefined);
     const token = localStorage.getItem('token');
     const navigate = useNavigate();
     const {id} = useParams()
@@ -17,32 +23,38 @@ function LobbyPage() {
                 'Authorization': `Bearer ${token}`
             }
         }).then((response) => {
-            const {name, status, id_users} = response.data;
-            setFields({...fields, name: name, status: status, users: id_users});
+            const {name, status, id_users} = response.data.game;
+            const {is_in} = response.data;
+            setFields({...fields, name: name, status: status, users: id_users, is_in: is_in});
         }).catch((error) => {
-            toast(error)
-            console.log(error.message)
+            toast(error.message)
+            console.log(error)
             navigate("/game")
         })
+
+        socket.on('connect', () => {
+            console.log("connect")
+            setFields({...fields, isConnected: true})
+        });
+
+        socket.on('disconnect', () => {
+            console.log("disconnect")
+            setFields({...fields, isConnected: false})
+        });
+
+        socket.on('useradded', (user) => {
+            console.log("useradded",user)
+            setNewUser(user)
+        });
     }, [])
 
-    function handleStartGame() {
-        console.log("toto")
-        axios.post("http://localhost:3000/startgame", {id: id}, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).then((response) => {
-            console.log("titi")
-        }).catch((error) => {
-            console.log(error)
-            toast(error.message)
-            console.log(error.message)
-        })
-    }
+    useEffect(() => {
+        if (!newUser) return
+        setFields({...fields, users: [...fields.users, newUser._id]})
+    }, [newUser])
 
     if (fields.status === "RUNNING") {
-        return <GamePage/>
+        return <GamePage />
     }
 
     return (
@@ -51,13 +63,9 @@ function LobbyPage() {
                 <h1>{fields.name}</h1>
                 <div>
                     <label>Joueurs connectés : </label>
-                    <ul>
-                        {fields.users.map((user, index) => (
-                            <li key={index}>{user}</li>
-                        ))}
-                    </ul>
+                    <ListUsers items={fields.users}/>
                 </div>
-                <button onClick={handleStartGame}>Lancer la partie</button>
+                {fields.is_in ? <StartButton/>:<JoinButton/>}
             </div>
             <ToastContainer/>
         </div>

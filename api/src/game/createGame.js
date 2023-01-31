@@ -13,6 +13,9 @@ router.post('/', validateToken, async (req, res) => {
 
         const game = new Game({id_users: [id],name:name});
         await game.save();
+
+        req.app.io.emit('gameadded', game);
+
         return res.status(200).json({id: game._id});
     } catch (error) {
         console.log(error);
@@ -20,4 +23,4 @@ router.post('/', validateToken, async (req, res) => {
     }
 });
 
-module.exports = router;
+module.exports= router;
