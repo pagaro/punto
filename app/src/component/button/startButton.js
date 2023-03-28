@@ -12,7 +12,7 @@ function StartButton() {
                 'Authorization': `Bearer ${token}`
             }
         }).then((response) => {
-            // window.location.reload();
+            window.location.reload();
         }).catch((error) => {
             console.log(error)
             toast(error.message)

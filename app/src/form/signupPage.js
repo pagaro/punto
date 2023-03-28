@@ -8,7 +8,7 @@ import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function SignupPage() {
-    const [fields, setFields] = useState({email: '', password: '',confirmPassword :'',dob:''});
+    const [fields, setFields] = useState({email: '', password: '',confirmPassword :'',dob:'', name:''});
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
@@ -50,6 +50,11 @@ function SignupPage() {
                 <label>
                     Email:
                     <input type="email" value={fields.email} onChange={e => setFields({...fields , email: e.target.value})}/>
+                </label>
+                <br/>
+                <label>
+                    Name:
+                    <input type="text" value={fields.name} onChange={e => setFields({...fields , name: e.target.value})}/>
                 </label>
                 <br/>
                 <label>

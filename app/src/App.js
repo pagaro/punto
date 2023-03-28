@@ -21,6 +21,7 @@ function App() {
                 <Route exact path='/game' element={<CreatePage/>}/>
             </Route>
             <Route path="/game/:id" element={<LobbyPage/>}></Route>
+
         </Routes>
 
     );

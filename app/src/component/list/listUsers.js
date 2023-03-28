@@ -7,8 +7,7 @@ function List({items}) {
     items.forEach((item, index) => {
         listItems.push(
             <li key={index}>
-                {/*{item.name}*/}
-                {item}
+                {item.name}
             </li>
         )
     });

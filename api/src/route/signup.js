@@ -4,7 +4,7 @@ const express = require("express");
 const router = express.Router();
 router.post('/', async (req, res) => {
     try {
-        const { email, dob, password } = req.body;
+        const { email, dob, password,name } = req.body;
         let user = await User.findOne({email});
 
         if (user) {
@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        user = new User({ email, dob, password: hashedPassword });
+        user = new User({ email, dob, password: hashedPassword,name });
         await user.save();
         res.status(201).send();
     } catch (error) {

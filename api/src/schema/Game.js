@@ -19,7 +19,7 @@ const GameSchema = new mongoose.Schema({
     },
     id_handles: {
         type: [Schema.Types.ObjectId],
-        default: undefined,
+        default: [],
         maxItems: 5,
         minItems: 0,
     },

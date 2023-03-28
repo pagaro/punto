@@ -23,6 +23,7 @@ const statusgameRoutes = require('./game/statusGame');
 const startgameRoutes = require('./game/startGame');
 const listsgamesRoutes = require('./game/listsGames');
 const joingameRoutes = require('./game/joinGame');
+const setcardRoutes = require('./game/setCard');
 
 
 app.use((req, res, next) => {
@@ -40,6 +41,7 @@ app.use('/statusgame', statusgameRoutes);
 app.use('/startgame', startgameRoutes);
 app.use('/listsgames', listsgamesRoutes);
 app.use('/joingame', joingameRoutes);
+app.use('/setcard', setcardRoutes);
 io.on('connection', (socket) => {
     socket.on('gameadded', (game) => {
         io.emit('gameadded', game);
@@ -52,6 +54,9 @@ io.on('connection', (socket) => {
     });
     socket.on('userremoved', (game) => {
         io.emit('userremoved', game);
+    });
+    socket.on('cardadd', (game) => {
+        io.emit('cardadd', game);
     });
 });
 

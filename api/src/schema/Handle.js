@@ -8,10 +8,15 @@ const HandleSchema = new mongoose.Schema({
     },
     id_rounds: {
         type: [Schema.Types.ObjectId],
-        default: undefined
+        default: []
     },
+    hands: {
+        type: Map,
+        of: mongoose.Schema.Types.ObjectId,
+        required: true,
+    }
 });
 
-const Handle = mongoose.model('Game', HandleSchema);
+const Handle = mongoose.model('Handle', HandleSchema);
 
 module.exports = Handle;

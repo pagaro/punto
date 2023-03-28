@@ -10,7 +10,7 @@ const RoundSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         required: true
     },
-    id_users: {
+    id_user: {
         type: Schema.Types.ObjectId,
         required: true
     },
@@ -23,6 +23,6 @@ const RoundSchema = new mongoose.Schema({
     }
 });
 
-const Round = mongoose.model('Game', RoundSchema);
+const Round = mongoose.model('Round', RoundSchema);
 
 module.exports = Round;

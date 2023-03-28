@@ -23,9 +23,11 @@ function LobbyPage() {
                 'Authorization': `Bearer ${token}`
             }
         }).then((response) => {
-            const {name, status, id_users} = response.data.game;
+            const {name, status} = response.data.game;
+            const users = response.data.users
             const {is_in} = response.data;
-            setFields({...fields, name: name, status: status, users: id_users, is_in: is_in});
+            setFields({...fields, name: name, status: status, users: users, is_in: is_in});
+
         }).catch((error) => {
             toast(error.message)
             console.log(error)
@@ -50,7 +52,7 @@ function LobbyPage() {
 
     useEffect(() => {
         if (!newUser) return
-        setFields({...fields, users: [...fields.users, newUser._id]})
+        setFields({...fields, users: [...fields.users, newUser]})
     }, [newUser])
 
     if (fields.status === "RUNNING") {
