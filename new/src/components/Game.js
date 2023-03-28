@@ -1,76 +1,41 @@
-// src/components/Game.js
-import React, { useState, useEffect } from "react";
+/// src/components/Game.js
+import React, {useState} from "react";
 import Board from "./Board";
-import PlayerHand from "./PlayerHand";
-import { distributeCards } from "../utils/gameLogic";
-// import "./Game.css";
+import {checkForWin, placeCard} from "../utils/gameLogic";
 
-const Game = ({ numPlayers, cardBack }) => {
-    const [hands, setHands] = useState([]);
-    const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
-    const [selectedCard, setSelectedCard] = useState(null);
-    const [winner, setWinner] = useState(null);
+const Game = ({numPlayers}) => {
+    const [cards, setCards] = useState(Array(36).fill(null));
+    const [currentColor, setCurrentColor] = useState("#FF0000");
 
-    useEffect(() => {
-        const dealCards = async () => {
-            const hands = await distributeCards(numPlayers);
-            setHands(hands);
-        };
-        dealCards();
-    }, [numPlayers]);
-
-    const selectCard = (card) => {
-        if (currentPlayerIndex === 0) {
-            setSelectedCard(card);
+    const handleClick = (index) => {
+        // Vérifie si l'emplacement est vide
+        if (cards[index]) {
+            alert("Emplacement déjà occupé !");
+            return;
         }
+
+        // Place la carte sur le plateau
+        const newCards = placeCard(cards, index, currentColor);
+        setCards(newCards);
+
+        // Vérifie si le joueur a gagné
+        if (checkForWin(newCards)) {
+            alert("Victoire !");
+            // Réinitialiser le plateau ou gérer la fin de la partie
+            setCards(Array(36).fill(null));
+        }
+
+        // Modifier la couleur de la carte à placer pour le prochain tour (selon la logique du jeu)
+        setCurrentColor(currentColor === "#FF0000" ? "#00FF00" : "#FF0000");
     };
-
-    const playCard = (rowIndex, colIndex) => {
-        if (selectedCard) {
-            const playedCard = {
-                ...selectedCard,
-                imagePath: selectedCard.imagePath.replace("card-front", "card-back"),
-            };
-            const newHands = [...hands];
-            newHands[currentPlayerIndex] = newHands[currentPlayerIndex].filter(
-                (card) => card !== selectedCard
-            );
-            setHands(newHands);
-            setCurrentPlayerIndex((currentPlayerIndex + 1) % numPlayers);
-            setSelectedCard(null);
-            Board.playCard(playedCard, rowIndex, colIndex);
-        }
-    };
-
-    useEffect(() => {
-        const winningColor = Board.checkForWinner();
-        if (winningColor) {
-            setWinner(winningColor);
-        }
-    }, [currentPlayerIndex]);
 
     return (
-        <div className="game">
-            <div className="board-container">
-                <Board playCard={playCard} cardBack={cardBack} />
-                {winner && (
-                    <div className="winner-message">
-                        {`${winner.toUpperCase()} WINS!`}
-                    </div>
-                )}
-            </div>
-            <div className="player-hands">
-                {hands.map((cards, i) => (
-                    <PlayerHand
-                        key={i}
-                        cards={cards}
-                        selectCard={selectCard}
-                        currentPlayer={i === currentPlayerIndex}
-                    />
-                ))}
-            </div>
+        <div>
+            <h2>Jeu pour {numPlayers} joueur(s)</h2>
+            <Board cards={cards} handleClick={handleClick}/>
         </div>
     );
 };
-
 export default Game;
+
+
