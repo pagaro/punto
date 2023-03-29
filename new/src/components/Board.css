@@ -1,0 +1,21 @@
+/* src/components/Board.css */
+.board {
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(50px * 11); /* Largeur totale de la grille (11 cases * largeur d'une case) */
+    margin: 0 auto;
+    border: 1px solid #333;
+}
+
+.board-row {
+    display: flex;
+}
+
+.grid-square {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
