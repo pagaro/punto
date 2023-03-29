@@ -37,7 +37,7 @@ const shuffle = (array) => {
 };
 
 
-export const distributeCards = (numPlayers) => {
+export const generatePlayers  = (numPlayers) => {
     const blueDeck = generateDeck('blue');
     const greenDeck = generateDeck('green');
     const orangeDeck = generateDeck('orange');

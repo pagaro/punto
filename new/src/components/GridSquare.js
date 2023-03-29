@@ -1,13 +1,12 @@
 // src/components/GridSquare.js
 import React from 'react';
 import { useDrop } from 'react-dnd';
+import Card from "./Card";
 
-const GridSquare = ({ x, y, children }) => {
+const GridSquare = ({ x, y, handleDrop, card }) => {
     const [{ isOver }, drop] = useDrop(() => ({
         accept: 'card',
-        drop: (item) => {
-            console.log(`Dropped card at position: ${x}, ${y}`);
-        },
+        drop: (item) => handleDrop(x, y, item.card),
         collect: (monitor) => ({
             isOver: !!monitor.isOver(),
         }),
@@ -17,13 +16,17 @@ const GridSquare = ({ x, y, children }) => {
         <div
             ref={drop}
             style={{
+                position: 'relative',
+                backgroundColor: isOver ? 'rgba(0, 0, 255, 0.3)' : 'transparent',
                 width: '50px',
                 height: '50px',
                 border: '1px solid black',
-                backgroundColor: isOver ? 'lightblue' : 'white',
+                boxSizing: 'border-box',
             }}
+            className="grid-square"
+
         >
-            {children}
+            {card && <Card card={card} />}
         </div>
     );
 };

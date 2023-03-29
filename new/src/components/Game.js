@@ -1,39 +1,38 @@
 /// src/components/Game.js
 import React, {useState} from "react";
 import Board from "./Board";
-import {checkForWin, placeCard} from "../utils/gameLogic";
+import { generatePlayers} from "../utils/gameLogic";
+import Player from "./Player";
+import {HTML5Backend} from "react-dnd-html5-backend";
+import {DndProvider} from "react-dnd";
 
 const Game = ({numPlayers}) => {
-    const [cards, setCards] = useState(Array(36).fill(null));
-    const [currentColor, setCurrentColor] = useState("#FF0000");
+    const [board, setBoard] = useState( Array(11).fill(null).map(() => Array(11).fill(null)));
+    const [currentPlayer, setCurrentPlayer] = useState(0);
+    const players = generatePlayers(numPlayers);
 
-    const handleClick = (index) => {
-        // Vérifie si l'emplacement est vide
-        if (cards[index]) {
-            alert("Emplacement déjà occupé !");
-            return;
-        }
 
-        // Place la carte sur le plateau
-        const newCards = placeCard(cards, index, currentColor);
-        setCards(newCards);
+    const handleDrop = (x, y, card) => {
 
-        // Vérifie si le joueur a gagné
-        if (checkForWin(newCards)) {
-            alert("Victoire !");
-            // Réinitialiser le plateau ou gérer la fin de la partie
-            setCards(Array(36).fill(null));
-        }
-
-        // Modifier la couleur de la carte à placer pour le prochain tour (selon la logique du jeu)
-        setCurrentColor(currentColor === "#FF0000" ? "#00FF00" : "#FF0000");
+        const newBoard = board.map((row) => row.slice());
+        // Place the card on the new board
+        newBoard[x][y] = card;
+        setBoard(newBoard)
     };
 
     return (
+        <DndProvider backend={HTML5Backend}>
         <div>
             <h2>Jeu pour {numPlayers} joueur(s)</h2>
-            <Board cards={cards} handleClick={handleClick}/>
+            <Board numPlayers={numPlayers} handleDrop={handleDrop} board={board}/>
+
+            <div className="player-cards">
+                {players.map((player, index) => (
+                    <Player key={index} player={player} isActive={currentPlayer === index} />
+                ))}
+            </div>
         </div>
+        </DndProvider>
     );
 };
 export default Game;

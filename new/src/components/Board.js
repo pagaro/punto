@@ -1,26 +1,28 @@
 // src/components/Board.js
-import React, { useEffect, useState } from 'react';
-import { distributeCards } from '../utils/gameLogic';
-import Player from './Player';
+import React from 'react';
+import GridSquare from './GridSquare';
+import './Board.css';
 
-const Board = ({ numPlayers }) => {
-    const [players, setPlayers] = useState([]);
-    const [currentPlayer, setCurrentPlayer] = useState(0);
+const Board = ({ numPlayers, handleDrop, board }) => {
+    const renderGrid = () => {
+        return board.map((row, x) => {
+            return (
+                <div key={x} className="board-row">
+                    {row.map((square, y) => (
+                        <GridSquare
+                            key={`${x}-${y}`}
+                            x={x}
+                            y={y}
+                            handleDrop={handleDrop}
+                            card={square}
+                        />
+                    ))}
+                </div>
+            );
+        });
+    };
 
-    useEffect(() => {
-        const newPlayers = distributeCards(numPlayers);
-        setPlayers(newPlayers);
-    }, [numPlayers]);
-
-    // Ajoutez ici la logique pour gérer le déroulement du jeu, les actions des joueurs, etc.
-
-    return (
-        <div className="board">
-            {players.map((player, index) => (
-                <Player key={index} player={player} isActive={currentPlayer === index} />
-            ))}
-        </div>
-    );
+    return <div className="board">{renderGrid()}</div>;
 };
 
 export default Board;
