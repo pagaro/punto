@@ -1,29 +1,25 @@
 // src/components/Board.js
-import React from "react";
-import styled from "styled-components";
-import Card from "./Card";
+import React, { useEffect, useState } from 'react';
+import { distributeCards } from '../utils/gameLogic';
+import Player from './Player';
 
-const BoardContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(6, 1fr);
-  gap: 1px;
-  width: 300px;
-  height: 300px;
-  border: 1px solid #ccc;
-`;
+const Board = ({ numPlayers }) => {
+    const [players, setPlayers] = useState([]);
+    const [currentPlayer, setCurrentPlayer] = useState(0);
 
-const Board = ({ cards, handleClick }) => {
+    useEffect(() => {
+        const newPlayers = distributeCards(numPlayers);
+        setPlayers(newPlayers);
+    }, [numPlayers]);
+
+    // Ajoutez ici la logique pour gérer le déroulement du jeu, les actions des joueurs, etc.
+
     return (
-        <BoardContainer>
-            {cards.map((card, index) => (
-                <Card
-                    key={index}
-                    color={card}
-                    onClick={() => handleClick(index)}
-                />
+        <div className="board">
+            {players.map((player, index) => (
+                <Player key={index} player={player} isActive={currentPlayer === index} />
             ))}
-        </BoardContainer>
+        </div>
     );
 };
 

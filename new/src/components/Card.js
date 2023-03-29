@@ -1,9 +1,11 @@
-import React from "react";
-
-const Card = ({ value, color, imagePath }) => {
+import React from 'react';
+import './Card.css';
+const Card = ({ card }) => {
+    // console.log(card)
     return (
         <div className="card">
-            <img src={imagePath} alt={`${value}${color}`} />
+            <img src={card.image} alt={`${card.value} ${card.color}`} />
+            {/*<img src="../assets/images/card-back.png" alt={`${card.value} ${card.color}`}/>*/}
         </div>
     );
 };

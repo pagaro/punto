@@ -1,0 +1,15 @@
+/* src/components/Card.css */
+.card {
+    display: inline-block;
+    border: 2px solid black;
+    margin: 8px;
+    padding: 4px;
+    background-color: white;
+    border-radius: 4px;
+}
+
+.card img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
