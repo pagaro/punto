@@ -18,17 +18,7 @@ const Game = ({numPlayers}) => {
             event.preventDefault();
             const card = JSON.parse(event.dataTransfer.getData('card'));
 
-            // Mettre à jour la grille avec la carte déposée
-            // const newBoard = board.map((row, rowIndex) => {
-            //     if (rowIndex === x) {
-            //         return row.map((square, colIndex) => (colIndex === y ? card : square));
-            //     } else {
-            //         return row;
-            //     }
-            // });
-            // setBoard(newBoard);
-
-            setBoard((prevBoard) => {
+            setBoard(() => {
                 return board.map((row, rowIndex) => {
                     if (rowIndex === y) {
                         return row.map((square, colIndex) => (colIndex === x ? card : square));
@@ -39,18 +29,18 @@ const Game = ({numPlayers}) => {
             });
 
             // Enlever la carte de la main du joueur
-            const updatedPlayers = players.map((player, index) => {
-                if (index === currentPlayerIndex) {
-                    return {
-                        ...player,
-                        //todo
-                        // cards: player.cards.filter((playerCard) => playerCard.id !== card.id),
-                    };
-                } else {
+            setPlayers((prevPlayers) =>
+                prevPlayers.map((player, index) => {
+                    if (index === currentPlayerIndex) {
+                        console.log(player.cards)
+                        return {
+                            ...player,
+                            cards: player.cards.filter((c) => c.id !== card.id),
+                        };
+                    }
                     return player;
-                }
-            });
-            setPlayers(updatedPlayers);
+                })
+            );
 
             // Passer au joueur suivant
             setCurrentPlayerIndex((currentPlayerIndex + 1) % numPlayers);

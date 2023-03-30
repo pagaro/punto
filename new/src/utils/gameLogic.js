@@ -8,6 +8,7 @@ const generateDeck = (color) => {
     for (let i = 1; i <= 9; i++) {
         const card = {
             value: i,
+            id: i +"."+ color +"."+ Math.random().toString( 16 ).slice( 2, 10 ),
             color: color,
             image: colorImages[i - 1],
         };

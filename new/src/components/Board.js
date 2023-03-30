@@ -11,7 +11,6 @@ const Board = ({ board, handleCardDrop, currentPlayer }) => {
     };
 
     const handleCardDragEnd = () => {
-        console.log("toto")
         // Vous pouvez gérer les actions après le glisser-déposer ici, si nécessaire.
     };
 
