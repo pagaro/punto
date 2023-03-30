@@ -10,12 +10,3 @@
 .board-row {
     display: flex;
 }
-
-.grid-square {
-    width: 80px;
-    height: 80px;
-    border: 1px solid #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}

@@ -1,71 +1,75 @@
-/// src/components/Game.js
-import React, {useState} from "react";
-import Board from "./Board";
-import {generatePlayers} from "../utils/gameLogic";
-import Player from "./Player";
-import {HTML5Backend} from "react-dnd-html5-backend";
-import {DndProvider} from "react-dnd";
+// src/components/Game.js
+
+import React, {useEffect, useState} from 'react';
+import Board from './Board';
+import {generatePlayers} from '../utils/gameLogic';
 
 const Game = ({numPlayers}) => {
-    const [board, setBoard] = useState( Array(11).fill(null).map(() => Array(11).fill(null)));
-    const [currentPlayer, setCurrentPlayer] = useState(0);
-    const [players, setPlayers] = useState(generatePlayers(numPlayers));
+        const [players, setPlayers] = useState([]);
+        const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
+        const [board, setBoard] = useState(Array(11).fill(Array(11).fill(null)));
 
+        useEffect(() => {
 
-    const handleDrop = (x, y, card) => {
+            setPlayers(generatePlayers(numPlayers));
+        }, [numPlayers]);
 
+        const handleCardDrop = (event, x, y) => {
+            event.preventDefault();
+            const card = JSON.parse(event.dataTransfer.getData('card'));
 
-        setBoard((prevBoard) => {
-            const newBoard = [...prevBoard]; // Créez une copie de la grille précédente
-            if (!newBoard[x][y]) {
-                // Ajoutez la carte à la position si la case est vide
-                newBoard[x][y] = card;
+            // Mettre à jour la grille avec la carte déposée
+            // const newBoard = board.map((row, rowIndex) => {
+            //     if (rowIndex === x) {
+            //         return row.map((square, colIndex) => (colIndex === y ? card : square));
+            //     } else {
+            //         return row;
+            //     }
+            // });
+            // setBoard(newBoard);
 
-
-                console.log(players)
-                setPlayers((prevPlayers) => {
-                    const newPlayers = [...prevPlayers];
-                    newPlayers[currentPlayer].cards = newPlayers[currentPlayer].cards.filter(
-                        (c) => c !== card
-                    );
-                    return newPlayers;
+            setBoard((prevBoard) => {
+                return board.map((row, rowIndex) => {
+                    if (rowIndex === y) {
+                        return row.map((square, colIndex) => (colIndex === x ? card : square));
+                    } else {
+                        return row;
+                    }
                 });
+            });
 
+            // Enlever la carte de la main du joueur
+            const updatedPlayers = players.map((player, index) => {
+                if (index === currentPlayerIndex) {
+                    return {
+                        ...player,
+                        //todo
+                        // cards: player.cards.filter((playerCard) => playerCard.id !== card.id),
+                    };
+                } else {
+                    return player;
+                }
+            });
+            setPlayers(updatedPlayers);
 
+            // Passer au joueur suivant
+            setCurrentPlayerIndex((currentPlayerIndex + 1) % numPlayers);
+        };
 
-            } else {
-                // Si la case n'est pas vide, ignorez le déplacement ou affichez un message d'erreur
-                console.error('Cette case est déjà occupée.');
-            }
-            return newBoard;
-        });
-    };
+        const currentPlayer = players[currentPlayerIndex];
 
-
-    const nextPlayer = () => {
-        setCurrentPlayer((prevPlayer) => (prevPlayer + 1) % numPlayers);
-    };
-
-    return (
-        <DndProvider backend={HTML5Backend}>
-        <div>
-            <h2>Jeu pour {numPlayers} joueur(s)</h2>
-            <Board numPlayers={numPlayers} handleDrop={handleDrop} board={board}/>
-
-            <div className="player">
-                <Player
-                    player={players[currentPlayer]}
-                    currentPlayer={currentPlayer}
-                    isCurrentPlayer={true}
-                    // onCardDrag={handleCardDrag}
-                />
-                <button onClick={nextPlayer}>Passer au joueur suivant</button>
+        return (
+            <div className="game">
+                {players.length > 0 && (
+                    <Board
+                        board={board}
+                        handleCardDrop={handleCardDrop}
+                        currentPlayer={currentPlayer}
+                    />
+                )}
             </div>
+        );
+    }
+;
 
-        </div>
-        </DndProvider>
-    );
-};
 export default Game;
-
-
