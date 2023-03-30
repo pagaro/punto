@@ -11,6 +11,10 @@
     position: relative;
 }
 
+.grid-square.hovered {
+    background-color: #c0c0c0; /* Changez cette couleur en fonction de vos préférences */
+}
+
 .cardImage {
     width: 90%;
     height: 90%;
