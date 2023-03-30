@@ -50,7 +50,6 @@ const Board = ({ board, handleCardDrop, currentPlayer }) => {
                 />
             ))}
         </div>
-
     </div>;
 };
 
