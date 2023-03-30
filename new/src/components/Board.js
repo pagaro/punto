@@ -24,7 +24,7 @@ const Board = ({ board, handleCardDrop, currentPlayer }) => {
                         key={`${x}-${y}`}
                         x={x}
                         y={y}
-                        card={board[y][x]}
+                        board={board}
                         handleCardDrop={handleCardDrop}
                     />
                 );
@@ -39,10 +39,11 @@ const Board = ({ board, handleCardDrop, currentPlayer }) => {
     };
 
     return <div className="board">{renderGrid()}
-        <div className="player-hand">
+        <div className="player">
+            <h3>Player {currentPlayer.id}-{currentPlayer.color}</h3>
             {currentPlayer.cards.map((card, index) => (
                 <Card
-                    key={index}
+                    index={index}
                     card={card}
                     onDragStart={handleCardDragStart}
                     onDragEnd={handleCardDragEnd}

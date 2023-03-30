@@ -10,24 +10,3 @@
     box-sizing: border-box;
     position: relative;
 }
-
-.grid-square.hovered {
-    background-color: #c0c0c0; /* Changez cette couleur en fonction de vos préférences */
-}
-
-.cardImage {
-    width: 90%;
-    height: 90%;
-    object-fit: contain;
-}
-
-.dropzone {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(255, 255, 255, 0.5);
-    border: 1px dashed #000;
-    z-index: 10;
-}

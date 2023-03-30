@@ -3,11 +3,13 @@
 import React, {useEffect, useState} from 'react';
 import Board from './Board';
 import {generatePlayers} from '../utils/gameLogic';
+import CardContext from '../context/CardContext';
 
 const Game = ({numPlayers}) => {
         const [players, setPlayers] = useState([]);
         const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
         const [board, setBoard] = useState(Array(11).fill(Array(11).fill(null)));
+        const [draggedCard, setDraggedCard] = useState(null);
 
         useEffect(() => {
 
@@ -16,7 +18,13 @@ const Game = ({numPlayers}) => {
 
         const handleCardDrop = (event, x, y) => {
             event.preventDefault();
+
+
             const card = JSON.parse(event.dataTransfer.getData('card'));
+
+            // if (!card || (card && droppedCard.value > card.props.value)) {
+            //     alert("Vous ne pouvez pas placer cette carte ici. La valeur doit être strictement supérieure à celle de la carte présente.");
+            // }
 
             setBoard(() => {
                 return board.map((row, rowIndex) => {
@@ -32,7 +40,6 @@ const Game = ({numPlayers}) => {
             setPlayers((prevPlayers) =>
                 prevPlayers.map((player, index) => {
                     if (index === currentPlayerIndex) {
-                        console.log(player.cards)
                         return {
                             ...player,
                             cards: player.cards.filter((c) => c.id !== card.id),
@@ -49,6 +56,7 @@ const Game = ({numPlayers}) => {
         const currentPlayer = players[currentPlayerIndex];
 
         return (
+            <CardContext.Provider value={{ draggedCard, setDraggedCard }}>
             <div className="game">
                 {players.length > 0 && (
                     <Board
@@ -58,6 +66,7 @@ const Game = ({numPlayers}) => {
                     />
                 )}
             </div>
+            </CardContext.Provider>
         );
     }
 ;
