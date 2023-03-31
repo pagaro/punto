@@ -4,6 +4,7 @@ import React, {useEffect, useState} from 'react';
 import Board from './Board';
 import {generatePlayers} from '../utils/gameLogic';
 import CardContext from '../context/CardContext';
+import { checkWinner } from "../utils/checkWinner";
 
 const initialState = {
     players: [],
@@ -15,7 +16,7 @@ const initialState = {
 
 const Game = ({numPlayers}) => {
         const [players, setPlayers] = useState(initialState.players);
-        const [currentPlayerIndex, setCurrentPlayerIndex] = useState(initialState.currentPlayerIndex);
+        const [currentPlayerIndex, setCurrentPlayerIndex] = useState(Math.floor(Math.random() * numPlayers));
         const [board, setBoard] = useState(initialState.board);
         const [draggedCard, setDraggedCard] = useState(initialState.draggedCard);
         const [winner, setWinner] = useState(initialState.winner);
@@ -25,14 +26,15 @@ const Game = ({numPlayers}) => {
             setPlayers(generatePlayers(numPlayers));
         }, [numPlayers]);
 
-        const checkWinner = () => {
-            // Implémentez la logique pour déterminer le gagnant selon les règles du jeu.
-
-            // Si un joueur gagne, définissez-le comme gagnant.
-            if (true) {
-                setWinner(players[0]);
+        useEffect(() => {
+            // Après avoir mis à jour les états, vérifiez si un joueur a gagné.
+            if (checkWinner(board)) {
+                setWinner(currentPlayer);
+            } else {
+                // Passer au joueur suivant
+                setCurrentPlayerIndex((currentPlayerIndex + 1) % numPlayers);
             }
-        };
+        }, [board]);
 
         const handleCardDrop = (event, x, y) => {
             if (winner) {
@@ -72,11 +74,7 @@ const Game = ({numPlayers}) => {
                 })
             );
 
-            // Après avoir mis à jour les états, vérifiez si un joueur a gagné.
-            checkWinner();
 
-            // Passer au joueur suivant
-            setCurrentPlayerIndex((currentPlayerIndex + 1) % numPlayers);
         };
 
         const handleReset = () => {
