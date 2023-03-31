@@ -1,12 +1,31 @@
 /* src/components/Board.css */
-.board {
-    display: flex;
-    flex-wrap: wrap;
-    width: calc(50px * 11); /* Largeur totale de la grille (11 cases * largeur d'une case) */
-    margin: 0 auto;
+.react-transform-wrapper{
+    /*display: grid;*/
+    /*flex-wrap: wrap;*/
+    /*width: calc(50px * 11); !* Largeur totale de la grille (11 cases * largeur d'une case) *!*/
+    /*align-content: center;*/
+
+    /*margin: 0 auto;*/
     border: 1px solid #333;
 }
 
-.board-row {
+.row {
     display: flex;
 }
+
+/*.grid-container {*/
+/*    display: grid;*/
+/*    grid-template-columns: repeat(11, 100px);*/
+/*    grid-template-rows: repeat(11, 100px);*/
+/*    gap: 1px;*/
+/*}*/
+
+/*.tools {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    margin-bottom: 10px;*/
+/*}*/
+
+/*button {*/
+/*    margin: 0 5px;*/
+/*}*/
