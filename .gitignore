@@ -1,12 +1,15 @@
-/api/.idea/
-/api/node_modules/
-/app/.idea/
-/app/node_modules/
-/new/.idea/
-/new/node_modules/
-
 .idea/
 node_modules/
+package-lock.json
 
-/api/bin
+/api/.idea/
+/api/node_modules/
+/api/package-lock.json
+
+/app/.idea/
+/app/node_modules/
 /app/package-lock.json
+
+/new/.idea/
+/new/node_modules/
+/new/package-lock.json

@@ -4,7 +4,7 @@ import React, {useContext} from 'react';
 import './GridSquare.css'
 import Card from "./Card";
 import CardContext from '../context/CardContext';
-import {validateDropCard} from "../utils/ValideSquare";
+import {validateDropCard} from "../utils/valideSquare";
 
 const GridSquare = ({x, y, handleCardDrop, board}) => {
     const {draggedCard} = useContext(CardContext);
