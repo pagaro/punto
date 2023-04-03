@@ -2,7 +2,7 @@
 
 import React, {useContext} from 'react';
 import './Card.css';
-import CardContext from '../context/CardContext';
+import CardContext from '../../context/CardContext';
 
 const Card = ({ card,index, onDragStart, onDragEnd }) => {
     const { setDraggedCard } = useContext(CardContext);

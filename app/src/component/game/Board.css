@@ -1,6 +1,6 @@
 /* src/components/Board.css */
 .grid-container{
-    display: grid;
+    /*display: grid;*/
     flex-wrap: wrap;
     align-content: center;
 }

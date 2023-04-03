@@ -2,9 +2,9 @@
 
 import React, {useEffect, useState} from 'react';
 import Board from './Board';
-import {generatePlayers} from '../utils/gameLogic';
-import CardContext from '../context/CardContext';
-import { checkWinner } from "../utils/checkWinner";
+import {generatePlayers} from '../../utils/gameLogic';
+import CardContext from '../../context/CardContext';
+import { checkWinner } from "../../utils/checkWinner";
 
 const initialState = {
     players: [],

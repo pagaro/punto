@@ -1,9 +1,9 @@
 import React from "react";
 import {Navigate, Outlet, Route, Routes} from 'react-router-dom';
 import HomePage from "./homePage";
-import LoginPage from "./form/loginPage";
+import LoginPage from "./component/form/loginPage";
 import CreatePage from "./game/createPage";
-import SignupPage from "./form/signupPage";
+import SignupPage from "./component/form/signupPage";
 import LobbyPage from "./game/lobbyPage";
 
 const PrivateRoute = () => {
