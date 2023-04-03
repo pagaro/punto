@@ -4,7 +4,7 @@ import React from 'react';
 import GridSquare from './GridSquare';
 import Card from './Card';
 import './Board.css'
-import {validateDropSquare} from "../utils/valideSquare";
+import {validateDropSquare} from "../../utils/valideSquare";
 
 const Board = ({board, handleCardDrop, currentPlayer}) => {
 

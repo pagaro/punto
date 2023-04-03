@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import '../form/form.css';
+import '../component/form/form.css';
 import {useNavigate} from 'react-router-dom';
 import {toast, ToastContainer} from "react-toastify";
 
