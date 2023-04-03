@@ -1,0 +1,14 @@
+/* src/components/Board.css */
+.grid-container{
+    display: grid;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.board {
+    align-content: center;
+}
+
+.row {
+    display: flex;
+}
