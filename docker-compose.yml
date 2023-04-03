@@ -1,5 +1,5 @@
 name: punto
-version: '3'
+version: '3.7'
 services:
   db:
     container_name: db
@@ -11,6 +11,9 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
+    restart: always 
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
 
   db-express:
     container_name: db-express
@@ -19,6 +22,7 @@ services:
       - db
     ports:
       - "8081:8081"
+    restart: always
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: admin
       ME_CONFIG_MONGODB_ADMINPASSWORD: admin
@@ -32,18 +36,21 @@ services:
       - "3000:3000"
     links:
       - db
+    restart: always
     depends_on:
       - db
 
-  # app:
-  #   container_name: app
-  #   build: ./app
-  #   ports:
-  #     - "80:80"
-  #   links:
-  #     - db
-  #   depends_on:
-  #     - api
+  app:
+    container_name: app
+    build: ./app
+    ports:
+      - "80:80"
+    restart: always
+    links:
+      - db
+    depends_on:
+      - api
 
 volumes:
   db_data:
+    
