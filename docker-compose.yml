@@ -6,13 +6,12 @@ services:
     image: mongo
     ports:
       - "27017:27017"
-    volumes:
-      - db_data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
     restart: always 
     volumes:
+      - db_data:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
 
   db-express:
@@ -40,16 +39,16 @@ services:
     depends_on:
       - db
 
-  app:
-    container_name: app
-    build: ./app
-    ports:
-      - "80:80"
-    restart: always
-    links:
-      - db
-    depends_on:
-      - api
+#  app:
+#    container_name: app
+#    build: ./app
+#    ports:
+#      - "80:80"
+#    restart: always
+#    links:
+#      - db
+#    depends_on:
+#      - api
 
 volumes:
   db_data:

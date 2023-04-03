@@ -9,7 +9,3 @@ package-lock.json
 /app/.idea/
 /app/node_modules/
 /app/package-lock.json
-
-/new/.idea/
-/new/node_modules/
-/new/package-lock.json
