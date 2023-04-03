@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import axios from "axios";
-import {useNavigate, useParams} from "react-router-dom";
 import Game from "../component/game/Game";
 import NumberOfPlayers from "../component/game/NumberOfPlayers";
 
