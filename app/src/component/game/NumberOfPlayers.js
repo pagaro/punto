@@ -2,6 +2,7 @@
 import React from 'react';
 
 const NumberOfPlayers = ({ onSelect }) => {
+// fonction qui gère la sélection du nombre de joueurs
     const handleSelection = (numPlayers) => {
         onSelect(numPlayers);
     };

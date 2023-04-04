@@ -1,70 +1,44 @@
-# Getting Started with Create React App
+# Punto Game Web Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Cette application web est conçue pour jouer au jeu Punto. Elle utilise React, react-router-dom et d'autres modules pour créer et gérer les jeux, les utilisateurs et les cartes. L'application communique avec l'API Punto Game pour effectuer les opérations.
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+Assurez-vous d'avoir Node.js et npm installés sur votre système.
 
-### `npm start`
+1. Clonez ce dépôt.
+2. Exécutez `npm install` pour installer les dépendances nécessaires.
+3. Configurez vos variables d'environnement avec un fichier `.env` en vous basant sur le modèle `.env.example`.
+4. Lancez l'application en exécutant `npm start`. L'application sera disponible sur le port 3000 (ou le port spécifié dans les variables d'environnement).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Structure de l'application
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+L'application contient les composants et pages suivantes :
 
-### `npm test`
+- HomePage : Page d'accueil de l'application.
+- LoginPage : Page de connexion pour les utilisateurs.
+- SignupPage : Page d'inscription pour les utilisateurs.
+- CreatePage : Page de création d'un nouveau jeu.
+- LobbyPage : Page du lobby pour un jeu spécifique.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Routage
 
-### `npm run build`
+L'application utilise la bibliothèque react-router-dom pour gérer la navigation entre les différentes pages. Voici les routes définies :
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- "/" : Page d'accueil (HomePage).
+- "/login" : Page de connexion (LoginPage).
+- "/signup" : Page d'inscription (SignupPage).
+- "/game" : Page de création d'un nouveau jeu (CreatePage). Cette route est protégée et nécessite une authentification.
+- "/game/:id" : Page du lobby pour un jeu spécifique (LobbyPage).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### PrivateRoute
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Un composant appelé `PrivateRoute` est utilisé pour protéger les routes qui nécessitent une authentification. Si un utilisateur non authentifié tente d'accéder à une route protégée, il sera redirigé vers la page de connexion.
 
-### `npm run eject`
+## Utilisation
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Lancez l'API Punto Game et assurez-vous qu'elle fonctionne correctement.
+2. Ouvrez l'application web dans un navigateur en vous rendant à l'adresse `http://localhost` (ou l'adresse du serveur hébergeant l'application).
+3. Inscrivez-vous ou connectez-vous pour accéder aux fonctionnalités du jeu.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
