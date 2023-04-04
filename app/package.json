@@ -14,7 +14,7 @@
     "zxcvbn": "^4.4.2"
   },
   "scripts": {
-    "start": "set PORT=80 && react-scripts start",
+    "start": "PORT=80 react-scripts start",
     "build": "react-scripts build"
   },
   "eslintConfig": {
