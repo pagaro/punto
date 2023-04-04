@@ -39,16 +39,16 @@ services:
     depends_on:
       - db
 
-  app:
-    container_name: app
-    build: ./app
-    ports:
-      - "80:80"
-    restart: always
-    links:
-      - db
-    depends_on:
-      - api
+#  app:
+#    container_name: app
+#    build: ./app
+#    ports:
+#      - "80:80"
+#    restart: always
+#    links:
+#      - db
+#    depends_on:
+#      - api
 
 volumes:
   db_data:
