@@ -13,6 +13,7 @@ const router = express.Router();
 // Définir une route HTTP POST pour l'URL '/' qui crée une nouvelle partie de jeu
 router.post('/', validateToken, async (req, res) => {
 // Récupérer le nom de la partie de jeu à partir de la requête POST
+    const name = req.body.name
 // Récupérer l'ID utilisateur à partir de la requête POST
     const id = req.id;
 
