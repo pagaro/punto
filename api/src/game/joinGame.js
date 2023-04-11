@@ -1,4 +1,3 @@
-const {validateToken} = require("../validateToken");
 // Importer la fonction validateToken depuis le fichier ../validateToken.js
 const { validateToken } = require("../validateToken");
 
