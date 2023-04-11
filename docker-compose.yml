@@ -1,4 +1,4 @@
-name: punto
+#name: punto
 version: '3.7'
 services:
   db:
